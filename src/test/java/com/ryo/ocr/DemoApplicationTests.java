@@ -39,29 +39,29 @@ class DemoApplicationTests {
 		List<OrderEntity> list = orderDao.selectList(null);
 		list.forEach(System.out::println);
 	}
-
-	@Test
-	void test0() {
-		String bath = uploadPath;
-		test1(bath + "WechatIMG515.jpeg");
-	}
-
+//
+//	@Test
+//	void test0() {
+//		String bath = uploadPath;
+//		test1(bath + "WechatIMG515.jpeg");
+//	}
+//
 	/**
 	 * 根据路径识别文字结果
 	 * @param path
 	 */
-	@Test
-	public static void test1(String path) {
-		File file = new File(path);
-		ITesseract it = new Tesseract();
-		try {
-			String result = it.doOCR(file);
-			System.out.println("识别结果:"+result );
-		} catch (TesseractException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public static void test1(String path) {
+//		File file = new File(path);
+//		ITesseract it = new Tesseract();
+//		try {
+//			String result = it.doOCR(file);
+//			System.out.println("识别结果:"+result );
+//		} catch (TesseractException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 //	@Test
 //	void listTest() {
 //	    orderList();
