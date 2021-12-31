@@ -1,17 +1,20 @@
 package com.ryo.ocr.controller;
 
+import com.ryo.ocr.service.RecognitionService;
+import com.ryo.ocr.utils.R;
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
 
 @RequestMapping("/upload")
 @RestController
@@ -20,29 +23,37 @@ public class uploadController {
     @Value("${web.upload-path}")
     private String uploadPath;
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
+    @Autowired
+    RecognitionService recognitionService;
 
     @RequestMapping("/img")
-//    public String uploadImg(@RequestParam("file")MultipartFile file){
-    public String uploadImg(@RequestParam("file")MultipartFile file){
-
-//        String format = sdf.format(new Date());
-//        File folder = new File( uploadPath + format);
-//        if (!folder.isDirectory()) {
-//            folder.mkdirs();
-//        }
-        String oldName = file.getOriginalFilename();
-        try {
-            file.transferTo(new File(uploadPath, oldName));
-
-            String imgLocation = uploadPath + oldName;
-            return imgLocation;
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
-        return "ok";
+    public R uploadImg(@RequestParam("file")MultipartFile file){
+        //Todo judge the result
+        R result = recognitionService.receiveImg(file);
+        return result;
     }
+
+
+//    @RequestMapping("/test")
+//    public String ocrtest () {
+//        String bath = uploadPath;
+//        test1(bath + "test02.jpeg");
+//
+//        return "ok";
+//    }
+//    String test1(String path) {
+//        File file = new File(path);
+//        ITesseract it = new Tesseract();
+//        try {
+//            String result = it.doOCR(file);
+//            System.out.println("识别结果:"+result );
+//            return result;
+//        } catch (TesseractException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            return "xxxxx";
+//        }
+//    }
 }
 
 //        String newName = UUID.randomUUID().toString()
