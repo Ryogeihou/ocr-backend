@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 
 @Service("recognitionService")
 public class recognitionServiceImpl implements RecognitionService {
@@ -21,7 +23,8 @@ public class recognitionServiceImpl implements RecognitionService {
         try {
             file.transferTo(new File(uploadPath, oldName));
             String imgLocation = uploadPath + oldName;
-            String result =runCMD(String.format("tesseract %s stdout -l jpn", imgLocation));
+            String txtName = imgLocation.substring(0,imgLocation.indexOf("."));
+            String result =runCMD(String.format("tesseract %s %s -l jpn", imgLocation,txtName));
             return R.ok().put("imgLocation", imgLocation).put("result", result);
         } catch (IOException e) {
             System.out.println(e);
@@ -29,6 +32,9 @@ public class recognitionServiceImpl implements RecognitionService {
         }
     }
 
+    /*
+    runCMD & receive return value
+     */
     @Override
     public String runCMD(String command) {
         StringBuilder sb =new StringBuilder();
