@@ -2,20 +2,17 @@ package com.ryo.ocr;
 
 import com.ryo.ocr.dao.OrderDao;
 import com.ryo.ocr.entity.OrderEntity;
-import net.sourceforge.tess4j.ITesseract;
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @SpringBootTest
 class DemoApplicationTests {
@@ -25,6 +22,42 @@ class DemoApplicationTests {
 
 	@Value("${web.upload-path}")
 	private String uploadPath;
+
+
+	@Test
+	void readTxt() throws IOException {
+	    String fileName = "1c.txt";
+	    String filePath = uploadPath + fileName;
+	   	String rDate = "([0-9]|[a-z]|[A-Z]){4}(/|-|年)([0-9]|[a-z]|[A-Z]){1,2}(/|-|月)([0-9]|[a-z]|[A-Z]){1,2}";
+		Pattern pattern = Pattern.compile(rDate);
+		String testTxt = "2021年11月27日(土)";
+
+		FileInputStream fin = new FileInputStream(filePath);
+		InputStreamReader reader = new InputStreamReader(fin);
+		BufferedReader buffReader = new BufferedReader(reader);
+		String strTmp = "";
+//		Arrays arr = ;
+		Matcher test = pattern.matcher(testTxt);
+		System.out.println("test");
+		boolean rs = test.find();
+		if (rs) {
+			System.out.println(test.group(2));
+		}
+//		System.out.println(test.find());
+//		while((strTmp = buffReader.readLine())!=null){
+//			Matcher matcher = pattern.matcher(strTmp);
+//			boolean rs = matcher.matches();
+//			System.out.println("rs");
+//			System.out.println(rs);
+//			if (rs) {
+//				System.out.println("rs:");
+//				System.out.println(rs);
+//			}
+////			System.out.println(strTmp);
+//		}
+		buffReader.close();
+
+	}
 
 	@Test
 	void contextLoads() {

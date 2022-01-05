@@ -32,6 +32,9 @@ public class recognitionServiceImpl implements RecognitionService {
         }
     }
 
+    /*
+    runCMD & receive return value
+     */
     @Override
     public String runCMD(String command) {
         StringBuilder sb =new StringBuilder();
