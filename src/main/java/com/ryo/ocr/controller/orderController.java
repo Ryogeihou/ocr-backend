@@ -1,15 +1,16 @@
 package com.ryo.ocr.controller;
 
+import com.ryo.ocr.entity.RecogEntity;
 import com.ryo.ocr.utils.PageUtils;
 import com.ryo.ocr.utils.R;
 import com.ryo.ocr.entity.OrderEntity;
 import com.ryo.ocr.service.OrderService;
+import net.minidev.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 
 @RestController
@@ -31,4 +32,37 @@ public class orderController {
 
         return R.ok().put("page", page);
     }
+
+    @RequestMapping("/save")
+    public R save(@RequestBody OrderEntity orderEntity){
+
+        orderEntity.setItemList(orderEntity.getJsonArray().toString());
+        orderService.save(orderEntity);
+//        RecogEntity recogEntity = new RecogEntity();
+//        recogEntity.setJsonArray(orderEntity.getJsonArray());
+//        System.out.println(recogEntity);
+
+        return R.ok();
+    }
+    @RequestMapping("/saveBatch")
+    public R saveBatch(@RequestBody Collection<OrderEntity> orderList){
+        orderService.saveBatch(orderList);
+
+        return R.ok();
+    }
+
+    @RequestMapping("/delete")
+    public R delete(@RequestBody Integer[] ids){
+        orderService.removeByIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+    @RequestMapping("/delete/{orderId}")
+    public R deleteOne(@PathVariable("orderid") Integer orderId){
+        orderService.removeById(orderId);
+
+        return R.ok();
+    }
+
 }

@@ -1,8 +1,11 @@
 package com.ryo.ocr.service.Impl;
 
+import com.mysql.cj.xdevapi.JsonArray;
 import com.ryo.ocr.entity.RecogEntity;
 import com.ryo.ocr.service.RecognitionService;
 import com.ryo.ocr.utils.R;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +22,7 @@ public class recognitionServiceImpl implements RecognitionService {
     @Value("${web.upload-path}")
     private String uploadPath;
 
-
+    String noNum = "[^0-9]";
     String date = "([1-9]\\d{3})[/|-|年]([0-9]{1,2})[/|-|月]([0-9]{1,2})";
     String amountRow = "(小計|言十|商品代金).*[0-9]*";
 
@@ -77,7 +79,6 @@ public class recognitionServiceImpl implements RecognitionService {
         while((strTmp = buffReader.readLine())!=null){
             if (strTmp.length() != 0){
                 content.add(strTmp);
-//                content.add(strTmp.replaceAll(",|。| ", ""));
                 if (row2Date(strTmp) != null) {
                     resultEntity.setDateIndex(content.indexOf(strTmp));
                     resultEntity.setDate(strTmp.substring(0,strTmp.lastIndexOf(" ")));
@@ -87,28 +88,27 @@ public class recognitionServiceImpl implements RecognitionService {
                 }
             }
         }
-        resultEntity.setContent(content);
         ArrayList<String> itemList = new ArrayList(content.subList(resultEntity.getDateIndex() + 1 ,resultEntity.getAmountIndex()));
+        JSONArray itemJson = new JSONArray();
 
-//        int i = 0;
         for (int i = 0 ;i<itemList.toArray().length;i++){
-            itemList.set(i,processItem(itemList.get(i)));
+            itemJson.add(row2Json(itemList.get(i)));
         }
-        resultEntity.setItemRows(itemList);
-        System.out.println(itemList);
+
+        resultEntity.setContent(content);
+        resultEntity.setJsonArray(itemJson);
         return resultEntity;
     };
 
-    public String processItem(String row) {
-        String item = row.substring(0,row.lastIndexOf(" "));
+    public JSONObject row2Json(String row) {
+        String item = row.substring(0,row.lastIndexOf(" ")).trim();
         String price = row.substring(row.lastIndexOf(" ")+1);
-        String regEx = "[^0-9]";
-        Pattern p = Pattern.compile(regEx);
+        Pattern p = Pattern.compile(noNum);
         Matcher m = p.matcher(price);
         price = m.replaceAll("").trim();
-//        price.replaceAll("[^0-9]","");
-
-        return item.trim() + "    ￥" + price;
+        JSONObject json = new JSONObject();
+        json.put(item, price);
+        return json;
     }
 
     @Override
@@ -117,7 +117,6 @@ public class recognitionServiceImpl implements RecognitionService {
 //        String time = "([0-9]{1,2})[時|:]([0-9]{1,2})[分|:]?([0-9]{1,2})";
         Pattern rDate = Pattern.compile(date);
 //        Pattern rTime= Pattern.compile(time);
-
         Matcher mDate = rDate.matcher(row);
 //        Matcher mTime= rTime.matcher(row);
         boolean rd = mDate.find();
@@ -145,7 +144,6 @@ public class recognitionServiceImpl implements RecognitionService {
     public String row2Amount(String row) {
         Pattern rAmount = Pattern.compile(amountRow);
 //        Pattern rTime= Pattern.compile(time);
-
         Matcher mAmount = rAmount.matcher(row.replaceAll(" ",""));
 //        Matcher mTime= rTime.matcher(row);
         boolean ra = mAmount.find();
@@ -170,4 +168,14 @@ public class recognitionServiceImpl implements RecognitionService {
         return null;
     }
 
+//    public String processItem(String row) {
+//        String item = row.substring(0,row.lastIndexOf(" "));
+//        String price = row.substring(row.lastIndexOf(" ")+1);
+//        Pattern p = Pattern.compile(noNum);
+//        Matcher m = p.matcher(price);
+//        price = m.replaceAll("").trim();
+////        price.replaceAll("[^0-9]","");
+//
+//        return item.trim() + "    ￥" + price;
+//    }
 }

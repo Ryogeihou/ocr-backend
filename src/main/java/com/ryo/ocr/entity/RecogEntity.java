@@ -1,6 +1,7 @@
 package com.ryo.ocr.entity;
 
 import lombok.Data;
+import net.minidev.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,4 +14,5 @@ public class RecogEntity {
     private Integer amountIndex;
     private String telNum;
     private String date;
+    private JSONArray jsonArray;
 }

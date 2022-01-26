@@ -76,6 +76,16 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>com.vaadin.external.google</groupId>
+			<artifactId>android-json</artifactId>
+			<version>0.0.20131108.vaadin1</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -85,6 +95,24 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+<!--		<resources>-->
+<!--			<resource>-->
+<!--				<directory>src/main/java</directory>-->
+<!--				<includes>-->
+<!--					<include>**/*.properties</include>-->
+<!--					<include>**/*.xml</include>-->
+<!--				</includes>-->
+<!--				<filtering>false</filtering>-->
+<!--			</resource>-->
+<!--			<resource>-->
+<!--				<directory>src/main/resources</directory>-->
+<!--				<includes>-->
+<!--					<include>**/*.properties</include>-->
+<!--					<include>**/*.xml</include>-->
+<!--				</includes>-->
+<!--				<filtering>false</filtering>-->
+<!--			</resource>-->
+<!--		</resources>-->
 	</build>
 
 </project>

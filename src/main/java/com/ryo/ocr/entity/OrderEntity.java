@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.Value;
+import net.minidev.json.JSONArray;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Data
 @TableName("order_entity")
@@ -26,7 +28,6 @@ public class OrderEntity implements Serializable {
 
     private LocalDateTime modifyTime;
 
-
     private Integer totalAmount;
 
     private Integer payAmount;
@@ -37,5 +38,12 @@ public class OrderEntity implements Serializable {
     private String storeName;
 
     private String note;
+
+    @TableField(exist = false)
+    private JSONArray jsonArray;
+
+    private String itemList;
+
+    private String receiptDate;
 }
 
