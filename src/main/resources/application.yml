@@ -20,7 +20,7 @@ logging:
 server:
   port: 9888
 web:
-#  upload-path: /Users/ryo/data/
-  upload-path: /tmp/ocrData/
+  upload-path: /Users/ryo/data/
+#  upload-path: /tmp/ocrData/
   resources:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.upload-path}
