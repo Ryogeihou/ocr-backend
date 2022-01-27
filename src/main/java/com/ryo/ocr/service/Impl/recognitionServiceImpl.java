@@ -25,8 +25,9 @@ public class recognitionServiceImpl implements RecognitionService {
             String imgLocation = uploadPath + oldName;
             String txtName = imgLocation.substring(0,imgLocation.indexOf("."));
             String result =runCMD(String.format("tesseract %s %s -l jpn", imgLocation,txtName));
+            Thread.sleep(8000);
             return R.ok().put("imgLocation", imgLocation).put("result", result);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             System.out.println(e);
             return R.error(500, e.toString());
         }
