@@ -71,4 +71,11 @@ public class orderController {
 
         return R.ok();
     }
+
+    @RequestMapping("/create")
+    public R create(@RequestBody OrderEntity orderEntity) {
+        orderService.save(orderEntity);
+
+        return R.ok();
+    }
 }
