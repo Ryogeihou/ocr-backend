@@ -65,4 +65,10 @@ public class orderController {
         return R.ok();
     }
 
+    @RequestMapping("/update")
+    public R update(@RequestBody OrderEntity orderEntity) {
+        orderService.updateById(orderEntity);
+
+        return R.ok();
+    }
 }

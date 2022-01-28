@@ -19,6 +19,7 @@ logging:
     console: '%p%m%n'
 server:
   port: 9888
+
 web:
   upload-path: /Users/ryo/data/
 #  upload-path: /tmp/ocrData/

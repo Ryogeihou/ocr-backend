@@ -26,13 +26,9 @@ public class OrderEntity implements Serializable {
 
     private Integer deleteStatus;
 
-    private LocalDateTime modifyTime;
-
     private Integer totalAmount;
 
-    private Integer payAmount;
-
-    private LocalDateTime createTime;
+    private String createdTime;
 
     @TableField(exist = false)
     private String storeName;
