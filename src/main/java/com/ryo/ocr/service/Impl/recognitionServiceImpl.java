@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -22,6 +24,9 @@ public class recognitionServiceImpl implements RecognitionService {
 
     @Value("${web.upload-path}")
     private String uploadPath;
+//    Path path = Paths.get(uploadPath);
+
+
 
     String noNum = "[^0-9]";
     String date = "([1-9]\\d{3})[/|-|年]([0-9]{1,2})[/|-|月]([0-9]{1,2})";
@@ -30,8 +35,13 @@ public class recognitionServiceImpl implements RecognitionService {
     @Override
     public R receiveImg(MultipartFile file) {
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
+        File dir = new File(uploadPath);
+        if(!dir.exists()) {
+            dir.mkdirs();
+        }
         String oldName = file.getOriginalFilename();
         try {
+//            System.out.println(path);
             file.transferTo(new File(uploadPath, oldName));
             String imgLocation = uploadPath + oldName;
             String txtName = imgLocation.substring(0,imgLocation.indexOf("."));
@@ -67,7 +77,7 @@ public class recognitionServiceImpl implements RecognitionService {
         }
         return sb.toString();
     }
-
+    @Override
     public RecogEntity readTxt(String fileName) throws IOException {
 
         String filePath =  fileName + ".txt";

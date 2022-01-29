@@ -38,9 +38,6 @@ public class orderController {
 
         orderEntity.setItemList(orderEntity.getJsonArray().toString());
         orderService.save(orderEntity);
-//        RecogEntity recogEntity = new RecogEntity();
-//        recogEntity.setJsonArray(orderEntity.getJsonArray());
-//        System.out.println(recogEntity);
 
         return R.ok();
     }
@@ -67,6 +64,7 @@ public class orderController {
 
     @RequestMapping("/update")
     public R update(@RequestBody OrderEntity orderEntity) {
+        orderEntity.setItemList(orderEntity.getJsonArray().toString());
         orderService.updateById(orderEntity);
 
         return R.ok();

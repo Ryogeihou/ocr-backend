@@ -1,12 +1,15 @@
 package com.ryo.ocr.controller;
 
+import com.ryo.ocr.entity.RecogEntity;
 import com.ryo.ocr.service.RecognitionService;
+import com.ryo.ocr.utils.PageUtils;
 import com.ryo.ocr.utils.R;
 //import net.sourceforge.tess4j.ITesseract;
 //import net.sourceforge.tess4j.Tesseract;
 //import net.sourceforge.tess4j.TesseractException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,18 +17,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 @RequestMapping("/upload")
 @RestController
 public class uploadController {
 
-    @Value("${web.upload-path}")
-    private String uploadPath;
-
     @Autowired
     RecognitionService recognitionService;
+
+    @Value("${web.upload-path}")
+    private String uploadPath;
 
     @RequestMapping("/img")
 //    public R uploadImg(@RequestParam("file")MultipartFile file){
@@ -33,6 +38,13 @@ public class uploadController {
         //Todo judge the result
         R result = recognitionService.receiveImg(file);
         return result;
+    }
+
+
+    @RequestMapping("/query")
+    public R queryResult(@RequestParam String fileName) throws IOException {
+        RecogEntity recogEntity = recognitionService.readTxt( uploadPath + fileName);
+        return R.ok().put("result", recogEntity);
     }
 
 
