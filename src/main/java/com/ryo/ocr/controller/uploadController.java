@@ -7,6 +7,7 @@ import com.ryo.ocr.utils.R;
 //import net.sourceforge.tess4j.TesseractException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,8 @@ public class uploadController {
     RecognitionService recognitionService;
 
     @RequestMapping("/img")
-    public R uploadImg(@RequestParam("file")MultipartFile file){
+//    public R uploadImg(@RequestParam("file")MultipartFile file){
+    public R uploadImg(@RequestBody MultipartFile file){
         //Todo judge the result
         R result = recognitionService.receiveImg(file);
         return result;

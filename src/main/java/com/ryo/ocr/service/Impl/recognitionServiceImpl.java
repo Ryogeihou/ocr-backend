@@ -6,6 +6,7 @@ import com.ryo.ocr.service.RecognitionService;
 import com.ryo.ocr.utils.R;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,10 +36,11 @@ public class recognitionServiceImpl implements RecognitionService {
             String imgLocation = uploadPath + oldName;
             String txtName = imgLocation.substring(0,imgLocation.indexOf("."));
 //            String txtName = "stdout";
-    runCMD(String.format("tesseract %s %s -l jpn", imgLocation,txtName));
+            runCMD(String.format("tesseract %s %s -l jpn", imgLocation,txtName));
+            Thread.sleep(5000);
             RecogEntity result = readTxt(txtName);
             return R.ok().put("imgLocation", imgLocation).put("result", result);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             System.out.println(e);
             return R.error(500, e.toString());
         }
