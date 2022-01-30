@@ -91,7 +91,7 @@ public class recognitionServiceImpl implements RecognitionService {
         while((strTmp = buffReader.readLine())!=null){
             if (strTmp.length() != 0){
                 content.add(strTmp);
-                if (row2Date(strTmp) != null) {
+                if (row2Date(strTmp) != null && resultEntity.getDateIndex() == null) {
                     resultEntity.setDateIndex(content.indexOf(strTmp));
                     resultEntity.setDate(strTmp.substring(0,strTmp.lastIndexOf(" ")));
                 }
