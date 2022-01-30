@@ -47,10 +47,10 @@ public class recognitionServiceImpl implements RecognitionService {
             String txtName = imgLocation.substring(0,imgLocation.indexOf("."));
 //            String txtName = "stdout";
             runCMD(String.format("tesseract %s %s -l jpn", imgLocation,txtName));
-            Thread.sleep(5000);
+//            Thread.sleep(5000);
             RecogEntity result = readTxt(txtName);
             return R.ok().put("imgLocation", imgLocation).put("result", result);
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             System.out.println(e);
             return R.error(500, e.toString());
         }
@@ -100,6 +100,8 @@ public class recognitionServiceImpl implements RecognitionService {
                 }
             }
         }
+        resultEntity.setDateIndex( resultEntity.getDateIndex() == null ? 0 : resultEntity.getDateIndex());
+        resultEntity.setAmountIndex( resultEntity.getAmountIndex() == null ? content.size() : resultEntity.getAmountIndex());
         ArrayList<String> itemList = new ArrayList(content.subList(resultEntity.getDateIndex() + 1 ,resultEntity.getAmountIndex()));
         JSONArray itemJson = new JSONArray();
 
@@ -113,8 +115,8 @@ public class recognitionServiceImpl implements RecognitionService {
     };
 
     public JSONObject row2Json(String row) {
-        String item = row.substring(0,row.lastIndexOf(" ")).trim();
-        String price = row.substring(row.lastIndexOf(" ")+1);
+        String item =  row.lastIndexOf(" ")> 0 ? row.substring(0,row.lastIndexOf(" ")).trim(): row;
+        String price = row.lastIndexOf(" ")> 0 ? row.substring(row.lastIndexOf(" ")+1) : "";
         Pattern p = Pattern.compile(noNum);
         Matcher m = p.matcher(price);
         price = m.replaceAll("").trim();

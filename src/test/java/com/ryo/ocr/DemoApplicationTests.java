@@ -40,8 +40,8 @@ class DemoApplicationTests {
 
 	@Test
 	void mkdirTest () {
-
-
+		String row = "1100軽じゃがいも 11";
+		System.out.println(row.lastIndexOf(" "));;
 	}
 //	@Test
 //	void ocrTest1 () {
