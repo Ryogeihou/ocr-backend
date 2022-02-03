@@ -30,33 +30,24 @@
 </pluginRepositories>
 
 	<dependencies>
-<!--		<dependency>-->
-<!--			<groupId>io.springfox</groupId>-->
-<!--			<artifactId>springfox-swagger2</artifactId>-->
-<!--			<version>2.2.2</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>io.springfox</groupId>-->
-<!--			<artifactId>springfox-swagger-ui</artifactId>-->
-<!--			<version>2.2.2</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.apache.isis.viewer</groupId>
+<!--            test用-->
 			<artifactId>junit</artifactId>
 			<version>0.2.0-incubating</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>net.sourceforge.tess4j</groupId>-->
-<!--			<artifactId>tess4j</artifactId>-->
-<!--			<version>4.5.1</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
+<!--			クラスに@Dataアノテーションを付与すると、対象クラス内の-->
+<!--			インスタンス変数に対してgetter/setterでアクセスすることが可能となります。-->
 			<artifactId>lombok</artifactId>
 			<version>1.18.14</version>
 		</dependency>
 		<dependency>
 			<groupId>com.baomidou</groupId>
+<!--			Mybatis 固定化SQL、記憶プロセス、および高度マッピングをサポートする優れた耐久層フレームです。-->
+<!--			Mybatis-Plus（MPと略称する）はMybatisの強化ツールで、Mybatisの基礎の上で-->
+<!--			ただ強化して変化をしないだけで、開発を簡略化して、効率を高めるために生まれます。-->
 			<artifactId>mybatis-plus-boot-starter</artifactId>
 			<version>3.2.0</version>
 		</dependency>
