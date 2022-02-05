@@ -1,12 +1,16 @@
 package com.ryo.ocr.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.Value;
+import net.minidev.json.JSONArray;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Data
 @TableName("order_entity")
@@ -18,17 +22,24 @@ public class OrderEntity implements Serializable {
 
     private Long memberId;
 
-    private LocalDateTime createTime;
-
     private String memberUsername;
-
-    private Integer totalAmount;
-
-    private Integer payAmount;
-
-    private String note;
 
     private Integer deleteStatus;
 
-    private LocalDateTime modifyTime;
+    private Integer totalAmount;
+
+    private String createdTime;
+
+    @TableField(exist = false)
+    private String storeName;
+
+    private String note;
+
+    @TableField(exist = false)
+    private JSONArray jsonArray;
+
+    private String itemList;
+
+    private String receiptDate;
 }
+

@@ -19,6 +19,14 @@ public class orderController {
     @Autowired
     private OrderService orderService;
 
+
+    @RequestMapping("/list")
+    public R orderList(@RequestParam Map<String, Object> params){
+        PageUtils page = orderService.queryPage(params);
+
+        return R.ok().put("page", page);
+    }
+
     @RequestMapping("/info/{orderid}")
     public OrderEntity info(@PathVariable("orderid") Integer orderid){
         OrderEntity order = orderService.getById(orderid);
@@ -26,11 +34,35 @@ public class orderController {
         return order;
     }
 
-    @RequestMapping("/list")
-    public R orderList(@RequestParam Map<String, Object> params){
-        PageUtils page = orderService.queryPage(params);
+    @RequestMapping("/save")
+    public R save(@RequestBody OrderEntity orderEntity){
 
-        return R.ok().put("page", page);
+        orderEntity.setItemList(orderEntity.getJsonArray().toString());
+        orderService.save(orderEntity);
+
+        return R.ok();
+    }
+
+    @RequestMapping("/delete")
+    public R delete(@RequestBody Integer[] ids){
+        orderService.removeByIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+    @RequestMapping("/update")
+    public R update(@RequestBody OrderEntity orderEntity) {
+        orderEntity.setItemList(orderEntity.getJsonArray().toString());
+        orderService.updateById(orderEntity);
+
+        return R.ok();
+    }
+
+    @RequestMapping("/saveBatch")
+    public R saveBatch(@RequestBody Collection<OrderEntity> orderList){
+        orderService.saveBatch(orderList);
+
+        return R.ok();
     }
 
     @RequestMapping("/save")
