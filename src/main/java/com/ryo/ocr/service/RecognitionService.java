@@ -14,6 +14,4 @@ public interface RecognitionService {
     String runCMD(String command);
     String row2Date (String row);
     RecogEntity readTxt (String fileName) throws IOException;
-    String row2StoreName (String row);
-    Integer row2totalAmount (String row);
 }

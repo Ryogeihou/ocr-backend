@@ -25,17 +25,16 @@ import java.util.Map;
 @RequestMapping("/upload")
 @RestController
 public class uploadController {
-
+    //依頼注入 インタフェースを注入 インスタンスのnew操作をspringに任せる
     @Autowired
     RecognitionService recognitionService;
-
-    @Value("${web.upload-path}")
+    //依頼注入 値をパラメタに注入
+    @Value("${web.upload-path}")// application.ymlのところで設定した-->/tmp/ocrData
     private String uploadPath;
 
     @RequestMapping("/img")
-//    public R uploadImg(@RequestParam("file")MultipartFile file){
-    public R uploadImg(@RequestBody MultipartFile file){
-        //Todo judge the result
+    public R uploadImg(@RequestBody MultipartFile file) {
+        // Rはレスポンスの容器として使う /src/main/java/com/ryo/ocr/utils/R.java
         R result = recognitionService.receiveImg(file);
         return result;
     }
@@ -43,10 +42,10 @@ public class uploadController {
 
     @RequestMapping("/query")
     public R queryResult(@RequestParam String fileName) throws IOException {
-        RecogEntity recogEntity = recognitionService.readTxt( uploadPath + fileName);
+        RecogEntity recogEntity = recognitionService.readTxt(uploadPath + fileName);
         return R.ok().put("result", recogEntity);
     }
-
+}
 
 //    @RequestMapping("/test")
 //    public String ocrtest () {
@@ -68,7 +67,6 @@ public class uploadController {
 //            return "xxxxx";
 //        }
 //    }
-}
 
 //        String newName = UUID.randomUUID().toString()
 //                + oldName.substring(oldName.lastIndexOf("."), oldName.length());
